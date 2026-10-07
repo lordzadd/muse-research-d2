@@ -81,6 +81,42 @@ this Mac; WRITE/DELETE/SEND prompts. A prompt-injection planted in agent-readabl
 content (a Notes note, an email, a message) rides the pre-authorized read path and then
 must cross the write gate — that gate is the main control to test for bypass.
 
+### Scheduled tasks sub-pane (1 save)
+
+- "Agentic Feature Tour — Daily at 11:52 am". Detail page shows steps: **Connectors** and
+  **Browser**.
+- This is a silently pre-scheduled **daily autonomous agent run** on a bare account. Its
+  recurring trigger is a standing instruction executed by the agent without a fresh user
+  prompt.
+- Attack-relevant: if a task's stored steps are user-/agent-editable, a scheduled task is an
+  autonomous execution primitive that bypasses the "per conversation" consent model. Also
+  worth testing: whether the daily 11:52 run fires while the app/VPN is idle and what
+  inbox-overrides it honors (no connectors here, so nothing real to act on).
+
+### Connectors sub-pane (the "Connectors 1" grant is the Browser)
+
+Connectors list under Manage permissions shows, separate from the catalog:
+- On this Mac: Apple Calendar **Not enabled**, Apple Reminders **Not enabled**, Apple
+  Contacts **Not enabled**
+- Connected: **Browser**
+
+### Browser connector detail (granular per-action permissions)
+
+- Read: "Visit websites" — **Ask**
+- Write/delete:
+  - "Fill saved credentials" — **Ask**
+  - "Download files" — **Ask**
+  - **"Submit a form or POST request" — Allow** (default is pre-allowed)
+  - "Upload files" — **Ask**
+- Background: **"Background sync" — Allow** (default is pre-allowed)
+
+**Key model takeaway #2**: two web-write actions — form/POST submission and background sync
+— are pre-allowed by default for the Browser connector. "Visit websites" otherwise prompts,
+with the web-access default ("Ask for some actions: when your information may be shared or
+the website is unfamiliar") as a second gate. A prompt injection that drives the browser can
+POST to a page it already knows as familiar without a fresh approval; whether "unfamiliar
+website" trips the web-access gate is the exact bypass condition to probe.
+
 ## Connectors pane (catalog, none connected)
 
 Local/often-authored: Apple Calendar, Apple Reminders, Apple Contacts (Connect buttons).
@@ -112,3 +148,7 @@ Plus,"See all" expanders per category. No connector shows as connected on this a
    a connector is added.
 5. "Import memory" is an unguarded-looking user-activated vector for planting long-term
    instructions (memory injection).
+6. Browser connector pre-allows "Submit a form or POST request" + "Background sync" by
+   default; agent-driven web writes to a "familiar" website may bypass per-action prompts.
+7. One silent daily scheduled agent run exists ("Agentic Feature Tour", 11:52 am); a
+   standing task is an autonomous execution channel with no per-run user prompt.
