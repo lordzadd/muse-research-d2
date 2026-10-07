@@ -1,0 +1,35 @@
+# .gitignore
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Node
+node_modules/
+dist/
+
+# Secrets / credentials — never commit
+*.pem
+*.key
+.env
+.env.*
+!*.example
+credentials.*
+secrets.*
+*_token*
+
+# Live data dumps — never commit
+*.pcap
+*.har
+dumps/
+
+# OS / editor noise
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Local notes that shouldn't be shared
+scratch/
