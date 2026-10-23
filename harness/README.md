@@ -5,7 +5,6 @@ Measures which content channels reach the agent.
 ## Run
 
 ```sh
-python3 -m pip install -r requirements.txt
 python3 harness/run.py
 ```
 
@@ -19,3 +18,5 @@ python3 harness/run.py --trials 5 --out results/attack_surface.csv
 
 CSV at `results/attack_surface.csv` with one row per channel-view pair.
 Stdout prints a JSON summary with `success_rate`.
+
+No third-party dependencies are required.
